@@ -1,5 +1,6 @@
 import { generateQR } from './util'
 import { PDFDocument, StandardFonts } from 'pdf-lib'
+import moment from 'moment';
 
 const ys = {
   travail: 578,
@@ -14,11 +15,19 @@ const ys = {
 }
 
 export async function generatePdf (profile, reasons, pdfBase) {
-  const creationInstant = new Date()
-  const creationDate = creationInstant.toLocaleDateString('fr-FR')
+  
+  // const creationInstant = new Date()
+  //antidate date heure du qrcode 
+  //prends la date dd-MM-yyyy et time hh:mm du form et on enleve 5 minutes
+  const monInstant = moment(profile.datesortie+' '+profile.heuresortie, "DD-MM-YYYY hh:mm");
+  monInstant.subtract(5,'m');
+  const creationInstant = monInstant.toDate();
+ 
+  const creationDate = creationInstant.toLocaleDateString('fr-FR');
   const creationHour = creationInstant
     .toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-    .replace(':', 'h')
+    .replace(':', 'h');
+ 
 
   const {
     lastname,

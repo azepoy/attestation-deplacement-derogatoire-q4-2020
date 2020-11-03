@@ -169,7 +169,9 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
         .toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
         .replace(':', '-')
 
-      downloadBlob(pdfBlob, `attestation-${creationDate}_${creationHour}.pdf`)
+      //downloadBlob(pdfBlob, `attestation-${creationDate}_${creationHour}.pdf`)
+
+      downloadBlob(pdfBlob, `attestation-${creationDate}_${creationInstant.getTime()}.pdf`)
 
       snackbar.classList.remove('d-none')
       setTimeout(() => snackbar.classList.add('show'), 100)
