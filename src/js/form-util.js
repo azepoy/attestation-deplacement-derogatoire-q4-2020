@@ -239,13 +239,25 @@ export function followParams (watch = true) {
       if (params.has(name)) setField(field, name, params.get(name))
     })
 
+    //decoche tous si param auto et si raison dans param 
+  if (watch && params.has('auto') &&  params.get('raisons')!=null   ) {
+      console.log("-------->"+params.get('raisons'))
+      const reasonsObj = formData.flat(1).find(field => field.key === 'reason')
+      reasonsObj.items.forEach(data => {
+        const name = data.alias || data.code
+        const field = $('#checkbox-' + data.code)
+        if (field.checked)    field.click()
+      })
+  }
+
   // Coche les raisons
   const reasonsObj = formData.flat(1).find(field => field.key === 'reason')
   reasonsObj.items.forEach(data => {
     const name = data.alias || data.code
     const field = $('#checkbox-' + data.code)
-    if (params.get(reasonsObj.alias || 'raisons' || reasonsObj.key)?.split(',').includes(name) && !field.checked) field.click()
-  })
+    if (params.get(reasonsObj.alias || 'raisons' || reasonsObj.key)?.split(',').includes(name) && !field.checked) 
+      field.click()
+    })
 
   if (watch) {
     // Génère automatiquement le PDF si besoin, mais seulement au chargement
